@@ -7,9 +7,10 @@ import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CONTS } from "~/constants/common";
 import openseaLogo from "~/images/opensea.svg";
+import { ethers, Wallet } from "ethers";
 
 const style = {
-  wrapper: "bg-[#04111d] w-screen px-[1.2rem] py-[0.8rem] flex items-center z-10",
+  wrapper: "bg-[#04111d] w-screen px-[1.2rem] py-[0.8rem] flex items-center sticky top-0 z-10",
   logoContainer: "flex items-center cursor-pointer",
   logoText: " ml-[0.8rem] text-white font-semibold text-xl",
   searchBar: "flex flex-1 mx-[0.8rem] w-max-[520px] items-center bg-[#363840] rounded-[0.8rem] hover:bg-[#4c505c]",
@@ -27,6 +28,16 @@ type Props = {
 }
 
 const Navbar = ({ isBackdropOpen, toggleBackdrop }: Props) => {
+  const connectWallet = async () => {
+    // const provider = new ethers.providers.JsonRpcProvider();
+    // const signer = provider.getSigner();
+    // const wallet = new Wallet("0x03425121864afb5f5ad94e87286ec7800b7634863cc5b09025fbe08d10e03ef8");
+    // const res = wallet.connect(provider);
+    // console.log(await res.getBalance());
+    // // const address = await signer.getAddress();
+    // // const balance = await signer.getBalance();
+    // // console.log(ethers.utils.formatEther(balance));
+  };
   return (
     <div className={style.wrapper}>
       <Link href="/">
@@ -55,7 +66,7 @@ const Navbar = ({ isBackdropOpen, toggleBackdrop }: Props) => {
         <div className={style.headerIcon}>
           <CgProfile />
         </div>
-        <div className={style.headerIcon}>
+        <div className={style.headerIcon} onClick={() => connectWallet()}>
           <MdOutlineAccountBalanceWallet />
         </div>
       </div>
