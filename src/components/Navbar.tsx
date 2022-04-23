@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { AiOutlineSearch, AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CONTS } from "~/constants/common";
 import openseaLogo from "~/images/opensea.svg";
-import { ethers, Wallet } from "ethers";
+import { maskingString } from "~/lib/helper";
+import { AppContext } from "~/context";
 
 const style = {
   wrapper: "bg-[#04111d] w-screen px-[1.2rem] py-[0.8rem] flex items-center sticky top-0 z-10",
@@ -19,7 +20,8 @@ const style = {
   headerItems: "flex items-center justify-end",
   headerItem: "hidden px-4 font-bold text-[#c8cacd] hover:text-white cursor-pointer lg:inline-block",
   headerIcon: "hidden text-[#8a939b] text-3xl px-4 hover:text-white cursor-pointer md:inline-block",
-  hamburgerIcon: "flex text-2xl md:ml-4 stroke-current lg:hidden cursor-pointer text-[#8a939b]"
+  hamburgerIcon: "flex text-2xl md:ml-4 stroke-current lg:hidden cursor-pointer text-[#8a939b]",
+  accountText: "text-xl"
 };
 
 type Props = {
@@ -28,16 +30,8 @@ type Props = {
 }
 
 const Navbar = ({ isBackdropOpen, toggleBackdrop }: Props) => {
-  const connectWallet = async () => {
-    // const provider = new ethers.providers.JsonRpcProvider();
-    // const signer = provider.getSigner();
-    // const wallet = new Wallet("0x03425121864afb5f5ad94e87286ec7800b7634863cc5b09025fbe08d10e03ef8");
-    // const res = wallet.connect(provider);
-    // console.log(await res.getBalance());
-    // // const address = await signer.getAddress();
-    // // const balance = await signer.getBalance();
-    // // console.log(ethers.utils.formatEther(balance));
-  };
+  const { connectWallet, currentWallet } = useContext(AppContext);
+
   return (
     <div className={style.wrapper}>
       <Link href="/">
@@ -57,7 +51,7 @@ const Navbar = ({ isBackdropOpen, toggleBackdrop }: Props) => {
         />
       </div>
       <div className={style.headerItems}>
-        <Link href="/Collection/1234">
+        <Link href="/collection/1234">
           <div className={style.headerItem}>{CONTS.HEADER_ITEMS.COLLECTIONS}</div>
         </Link>
         <div className={style.headerItem}>{CONTS.HEADER_ITEMS.STATS}</div>
@@ -67,7 +61,12 @@ const Navbar = ({ isBackdropOpen, toggleBackdrop }: Props) => {
           <CgProfile />
         </div>
         <div className={style.headerIcon} onClick={() => connectWallet()}>
-          <MdOutlineAccountBalanceWallet />
+          {!currentWallet ?
+            <MdOutlineAccountBalanceWallet /> :
+            <div className={style.accountText}>
+              {maskingString(currentWallet, 2)}
+            </div>
+          }
         </div>
       </div>
       <div
