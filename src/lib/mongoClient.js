@@ -1,7 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 export const client = new MongoClient (
-  process.env.MONGODB_CONNECTION_STRING,
+  process.env.NEXT_PUBLIC_MONGODB_CONNECTION_STRING,
   {
       useNewUrlParser: true,
       useUnifiedTopology: true,

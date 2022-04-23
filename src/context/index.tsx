@@ -1,11 +1,18 @@
 import React, { createContext, useState, PropsWithChildren  } from "react";
 import { useMoralis } from "react-moralis";
 
-export const AppContext = createContext<unknown>(null);
+type ContextType = {
+  currentWallet?: string,
+  connectWallet: () => void,
+}
+export const AppContext = createContext<ContextType>({
+  currentWallet: "",
+  connectWallet: () => {return;},
+});
 
 
 export const AppProvider = ({ children }: PropsWithChildren<unknown>) => {
-  const [ currentWallet, setCurrentWallet ] = useState(null);
+  const [ currentWallet, setCurrentWallet ] = useState<string>("");
   const {
     isAuthenticated,
     authenticate,
@@ -28,15 +35,15 @@ export const AppProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const disconnectWallet = async () => {
     await logout();
-    setCurrentWallet(null);
+    setCurrentWallet("");
     console.log("logged out");
   };
 
   return (
     <AppContext.Provider
       value={{
-        connectWallet,
         currentWallet,
+        connectWallet,
       }}
     >
       {children}
